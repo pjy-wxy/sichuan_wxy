@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chinasoft.mapper.UserMapper">
+ 
+  <!-- 添加功能 无参数 -->
+  <insert id="addUserNoPar">
+	insert into user(username,password) values('CSGO','RUSHB');
+  </insert>
+  
+  <!-- 添加功能 参数 -->
+  <insert id="addUserByPar" parameterType ="com.chinasoft.pojo.User">
+	insert into user(id,username,password,phone,email) values(#{id},#{username},#{password},#{phone},#{email});
+  </insert>
+  
+  <delete id="removeUser">
+	delete from user where username = 'haha';
+  </delete>
+  
+  <update id="updateUser">
+	update user set username='CF' where id=7;
+  </update>
+  
+  <select id="selectUser" resultType="com.chinasoft.pojo.User">
+    select id,username,password from user where id = 3;
+  </select>
+  
+  <!-- 查询一个用户 参数 -->
+  <select id="selectOneByPar" resultType="User" parameterType="int">
+     select id,username,password from user where id = #{id}; 
+  </select>
+  
+  <!-- 查询 参数为List -->
+  <select id="selectByList" parameterType="list" resultType="User">
+	select *from user where in
+	<foreach collection="list" index="index" item="item" open="("
+		separator="," close= ")">
+		#{item}
+	</foreach>
+  </select>
+    
+  <!-- 查询所有数据 -->
+  <select id="selectUserAll" resultType="com.chinasoft.pojo.User">
+      select * from user;
+  </select>
+  
+  <!-- 删除功能 参数 -->
+  <delete id="deleteUserByParemeter" parameterType="com.chinasoft.pojo.User">
+    delete from user where id = #{id};
+  </delete>
+  
+  <!-- 更改数据 参数 -->
+  <update id="updateUserByParameter" parameterType="String"  >
+    update user set username = #{username} where id = 6; 
+  </update>
+  
+  <!--登录功能  -->
+	<select resultType="User" id="selectLogin"  parameterType="user" >
+		select * from user where username= #{username} and  password=#{password}
+	</select>
+	
+	<!--根据想要的字段排序  -->
+	<select id="selectOrderBy" parameterType="string" resultType="user">
+		select * from user order by  ${column}
+	</select>
+    
+  
+  
+  
+   
+ 
+</mapper>
